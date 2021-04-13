@@ -1,11 +1,10 @@
-using InversionOfControl;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using Persistence;
+using Application.Setup;
 
 namespace Boilerplate
 {
@@ -30,7 +29,6 @@ namespace Boilerplate
 
             services.AddPersistence(Configuration);
             services.AddBusiness();
-            services.AddInfrastructure();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

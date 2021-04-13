@@ -1,10 +1,10 @@
-﻿using Business.Interface;
-using Entities.Login;
+﻿using Application.Models.Entities.Authentication;
+using Application.Models.InputModels;
+using Application.Models.Settings;
+using Application.Models.ViewModels;
+using Business.Interface;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using Presentation.InputModels;
-using Presentation.Settings;
-using Presentation.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;

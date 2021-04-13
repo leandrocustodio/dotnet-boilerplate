@@ -1,6 +1,7 @@
-﻿using Entities.Authentication;
+﻿
+using Application.Models.Entities.Authentication;
 
-namespace Presentation.ViewModels
+namespace Application.Models.ViewModels
 {
     public class LoginResultViewModel
     {

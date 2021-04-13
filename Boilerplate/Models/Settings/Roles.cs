@@ -1,4 +1,4 @@
-﻿namespace Presentation.Settings
+﻿namespace Application.Models.Settings
 {
     public class Roles
     {

@@ -1,5 +1,5 @@
-﻿using Business;
-using Entities.Login;
+﻿using Application.Models.Entities.Authentication;
+using Business;
 using Moq;
 using Persistence.Interface;
 using System.Collections.Generic;
@@ -22,7 +22,7 @@ namespace Tests.Authentication.Business.Authentication
             user = new User("name", "lastname", "email", password);
             roles = new List<Role>()
             {
-                new Role() { Id = 123, Name = "231" }
+                new Role() { Id = "abc-ede", Name = "231" }
             };
         }
 
