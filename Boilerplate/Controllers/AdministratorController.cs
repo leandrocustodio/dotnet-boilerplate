@@ -39,13 +39,5 @@ namespace Boilerplate.Controllers
             var result = UserInfoViewModel.FromUser(user);
             return Created("/user/", result);
         }
-
-        [HttpPost]
-        [Route("test")]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        public IActionResult Test()
-        {
-            return Created("/user/", 1234);
-        }
     }
 }
