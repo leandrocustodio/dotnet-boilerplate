@@ -2,12 +2,13 @@
 using Application.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Persistence.Interface;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Persistence.Implementations
 {
-    public class UserRepository : IUserRepository 
+    public class UserRepository : IUserRepository
     {
         private readonly Context context;
 
@@ -16,9 +17,28 @@ namespace Persistence.Implementations
             this.context = context;
         }
 
+        public async Task CreateAsync(User user, string roleId)
+        {
+            context.Users.Add(user);
+
+            var userRole = new UserRole()
+            {
+                RoleId = roleId,
+                UserId = user.Id
+            };
+
+            context.UserRoles.Add(userRole);
+            await context.SaveChangesAsync();
+        }
+
+        public async Task<bool> ExistsAsync(string email)
+        {
+            return await context.Users.AnyAsync(u => u.Email.Equals(email));
+        }
+
         public async Task<User> GetByEmailAsync(string email)
         {
-            var user = await context.Users.SingleOrDefaultAsync(u => u.Email.Equals(email));
+            var user = await context.Users.FirstOrDefaultAsync(u => u.Email.Equals(email));
             return user;
         }
 

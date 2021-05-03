@@ -6,11 +6,13 @@ namespace Persistence.Interface
 {
     public interface IUserRepository
     {
+        Task CreateAsync(User user, string roleId);
+        Task<bool> ExistsAsync(string email);
         Task<User> GetByEmailAsync(string email);
         Task<List<Role>> ListRolesAsync(uint userId);
-        Task UpdateIncorrectAttemptsAsync(uint userId, int attempts);
         Task MarkAsBlockedAsync(uint userId);
         Task SetUserAsInactiveAsync(string userId);
         Task SetUserAsActiveAsync(string userId);
+        Task UpdateIncorrectAttemptsAsync(uint userId, int attempts);
     }
 }

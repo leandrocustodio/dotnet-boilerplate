@@ -1,5 +1,4 @@
 ﻿using Application.Models.Entities.Authentication;
-using Application.Persistence.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -11,16 +10,18 @@ namespace GorjetaFacil.Repository.Mapping
         {
             builder.ToTable("user_role");
 
-            builder.HasNoKey();
+            builder.HasKey(k => new
+            {
+                k.RoleId,
+                k.UserId
+            });
 
             builder.Property(p => p.UserId)
                 .HasColumnName("user_id")
-                //.HasUintConversion()
                 .IsRequired();
 
             builder.Property(p => p.RoleId)
                 .HasColumnName("role_id")
-                .HasColumnType("varchar(36)")
                 .IsRequired();
         }
     }

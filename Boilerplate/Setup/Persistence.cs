@@ -14,7 +14,11 @@ namespace Application.Setup
             var connectionString = string.Empty;
             connectionString = configuration.GetConnectionString("default");
 
-            services.AddDbContext<Context>(options => options.UseMySql(connectionString));
+            services.AddDbContext<Context>(options => options
+                //.UseLoggerFactory()
+                .EnableSensitiveDataLogging()
+                .UseMySql(connectionString)
+            );
             services.AddScoped<IUserRepository, UserRepository>();
 
             return services;

@@ -1,5 +1,4 @@
 ﻿using Application.Models.Entities.Authentication;
-using Application.Persistence.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -16,20 +15,21 @@ namespace Persistence.Mapping
             builder.Ignore(p => p.Roles);
 
             builder.Property(p => p.Id)
+               
                 //.HasUintConversion()
                 .IsRequired();
 
             builder.Property(p => p.Name)
-                .HasColumnType("varchar(100)")
+                //.HasColumnType("varchar(100)")
                 .HasMaxLength(100)
                 .IsRequired();
 
             builder.Property(p => p.LastName)
-                .HasColumnName("last_name")
-                .HasColumnType("tinytext");
+                .HasColumnName("last_name");
+                //.HasColumnType("tinytext");
 
             builder.Property(p => p.Email)
-                .HasColumnType("char(255)")
+                //.HasColumnType("char(255)")
                 .HasMaxLength(255)
                 .IsRequired();
 
@@ -39,7 +39,7 @@ namespace Persistence.Mapping
 
             builder.Property(p => p.RestorePasswordCode)
                 .HasColumnName("restore_password_code")
-                .HasColumnType("varchar(10)")
+                //.HasColumnType("varchar(10)")
                 .HasMaxLength(10);
 
             builder.Property(p => p.IncorrectAttempts)
@@ -51,8 +51,8 @@ namespace Persistence.Mapping
                 .HasColumnType("boolean");
 
             builder.Property(p => p.IsBlocked)
-                .HasColumnName("is_blocked")
-                .HasColumnType("boolean");
+                .HasColumnName("is_blocked");
+                //.HasColumnType("boolean");
 
             builder.Property(p => p.Created)
                 .HasColumnType("datetime");
