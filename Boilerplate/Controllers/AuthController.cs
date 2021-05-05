@@ -12,12 +12,12 @@ namespace Boilerplate.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class AdministratorController : ControllerBase
+    public class AuthController : ControllerBase
     {
-        private readonly ILogger<AdministratorController> _logger;
+        private readonly ILogger<AuthController> _logger;
         private readonly IUserBusiness _userBusiness;
 
-        public AdministratorController(ILogger<AdministratorController> logger, IUserBusiness userBusiness)
+        public AuthController(ILogger<AuthController> logger, IUserBusiness userBusiness)
         {
             _logger = logger;
             _userBusiness = userBusiness;
