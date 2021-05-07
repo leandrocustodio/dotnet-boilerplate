@@ -45,10 +45,12 @@ namespace Persistence.Implementations
         public async Task<List<Role>> ListRolesAsync(uint userId)
         {
             var roles = context.Roles.FromSqlInterpolated(@$"
-                    SELECT * 
+                    SELECT
+                        r.id,
+                        r.name 
                     FROM 
-                        user_roles ur 
-                        JOIN roles r ON r.id = ur.role_id
+                        user_role ur 
+                        JOIN role r ON r.id = ur.role_id
                     WHERE
                         ur.user_id = {userId}");
 
@@ -57,22 +59,22 @@ namespace Persistence.Implementations
 
         public async Task MarkAsBlockedAsync(uint userId)
         {
-            await context.Database.ExecuteSqlInterpolatedAsync($"UPDATE users SET is_blocked = 1 WHERE id = {userId}");
+            await context.Database.ExecuteSqlInterpolatedAsync($"UPDATE user SET is_blocked = 1 WHERE id = {userId}");
         }
 
         public async Task SetUserAsActiveAsync(string userId)
         {
-            await context.Database.ExecuteSqlInterpolatedAsync($"UPDATE users SET is_active = 1 WHERE id = {userId}");
+            await context.Database.ExecuteSqlInterpolatedAsync($"UPDATE user SET is_active = 1 WHERE id = {userId}");
         }
 
         public async Task SetUserAsInactiveAsync(string userId)
         {
-            await context.Database.ExecuteSqlInterpolatedAsync($"UPDATE users SET is_active = 0 WHERE id = {userId}");
+            await context.Database.ExecuteSqlInterpolatedAsync($"UPDATE user SET is_active = 0 WHERE id = {userId}");
         }
 
         public async Task UpdateIncorrectAttemptsAsync(uint userId, int attempts)
         {
-            await context.Database.ExecuteSqlInterpolatedAsync($"UPDATE users SET incorrect_attempts = {attempts} WHERE id = {userId}");
+            await context.Database.ExecuteSqlInterpolatedAsync($"UPDATE user SET incorrect_attempts = {attempts} WHERE id = {userId}");
         }
     }
 }

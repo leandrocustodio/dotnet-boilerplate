@@ -14,12 +14,10 @@ namespace Boilerplate.Controllers
     [Route("[controller]")]
     public class AdministratorController : ControllerBase
     {
-        private readonly ILogger<AdministratorController> _logger;
         private readonly IUserBusiness _userBusiness;
 
-        public AdministratorController(ILogger<AdministratorController> logger, IUserBusiness userBusiness)
+        public AdministratorController(IUserBusiness userBusiness)
         {
-            _logger = logger;
             _userBusiness = userBusiness;
         }
 

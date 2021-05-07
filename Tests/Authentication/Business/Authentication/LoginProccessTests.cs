@@ -35,8 +35,8 @@ namespace Tests.Authentication.Business.Authentication
             userRepository.Setup(x => x.ListRolesAsync(user.Id))
               .ReturnsAsync(roles);
 
-            var authBusiness = new AuthenticationBusiness(userRepository.Object);
-            var loginResult = await authBusiness.LoginAsync(user.Email, password);
+            var authBusiness = new AuthenticationBusiness(null, userRepository.Object);
+            var loginResult = await authBusiness.CheckCredentialsAsync(user.Email, password);
 
             Assert.True(loginResult.IsApproved);
             Assert.Equal(loginResult.User, user);
@@ -52,8 +52,8 @@ namespace Tests.Authentication.Business.Authentication
             userRepository.Setup(x => x.UpdateIncorrectAttemptsAsync(user.Id, It.IsAny<int>()));
 
             var expectedAttempts = user.IncorrectAttempts + 1;
-            var authBusiness = new AuthenticationBusiness(userRepository.Object);
-            var loginResult = await authBusiness.LoginAsync(user.Email, "wrong_password");
+            var authBusiness = new AuthenticationBusiness(null, userRepository.Object);
+            var loginResult = await authBusiness.CheckCredentialsAsync(user.Email, "wrong_password");
 
             Assert.False(loginResult.IsApproved);
             Assert.True(loginResult.IncorrectUsernameOrPassword);
@@ -72,8 +72,8 @@ namespace Tests.Authentication.Business.Authentication
             user.IncorrectAttempts = 4;
             var expectedAttempts = user.IncorrectAttempts + 1;
 
-            var authBusiness = new AuthenticationBusiness(userRepository.Object);
-            var loginResult = await authBusiness.LoginAsync(user.Email, "wrong_password");
+            var authBusiness = new AuthenticationBusiness(null, userRepository.Object);
+            var loginResult = await authBusiness.CheckCredentialsAsync(user.Email, "wrong_password");
 
             Assert.False(loginResult.IsApproved);
             Assert.True(loginResult.IncorrectUsernameOrPassword);

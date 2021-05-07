@@ -1,11 +1,9 @@
-﻿using Application.Business.Interface;
-using Application.Models.Entities.Authentication;
-using Application.Models.InputModels;
-using Application.Models.Settings;
+﻿using Application.Models.InputModels;
 using Application.Models.ViewModels;
+using Business.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 
 namespace Boilerplate.Controllers
@@ -14,30 +12,35 @@ namespace Boilerplate.Controllers
     [Route("[controller]")]
     public class AuthController : ControllerBase
     {
-        private readonly ILogger<AuthController> _logger;
-        private readonly IUserBusiness _userBusiness;
+        private readonly IAuthenticationBusiness _authenticationBusiness;
 
-        public AuthController(ILogger<AuthController> logger, IUserBusiness userBusiness)
+        public AuthController(IAuthenticationBusiness authenticationService)
         {
-            _logger = logger;
-            _userBusiness = userBusiness;
+            _authenticationBusiness = authenticationService;
         }
 
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Post(UserInputModel newUser)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(LoginResultViewModel))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(LoginResultViewModel))]
+        public async Task<IActionResult> Post(LoginInputModel credentials)
         {
-            var userAlreadyRegistered = await _userBusiness.ExistsAsync(newUser.Email);
+            var result = await _authenticationBusiness.LoginAsync(credentials);
 
-            if (userAlreadyRegistered)
-                return BadRequest("User Already registered");
+            if (result.IsLogginApproved)
+                return Ok(result);
 
-            var user = new User(newUser.Name, newUser.LastName, newUser.Email, newUser.Password);
-            await _userBusiness.CreateAsync(user, Roles.Admin);
+            return BadRequest(result);
+        }
 
-            var result = UserInfoViewModel.FromUser(user);
-            return Created("/user/", result);
+        [HttpGet]
+        [Authorize]
+        [Route("token/refresh")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
+        public IActionResult Refresh()
+        {
+            var result = _authenticationBusiness.RefreshToken(User.Claims);
+
+            return Ok(result);
         }
     }
 }

@@ -28,6 +28,7 @@ namespace Boilerplate
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Boilerplate", Version = "v1" });
             });
 
+            services.AddAuthentication(Configuration);
             services.AddPersistence(Configuration);
             services.AddBusiness();
         }
@@ -48,6 +49,7 @@ namespace Boilerplate
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
