@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using System;
 using System.Text;
 
 namespace Application.Setup
@@ -20,9 +21,8 @@ namespace Application.Setup
                 AddPolicy(options, Roles.Admin, settings.ClaimsNamespace, Roles.Admin);
                 AddPolicy(options, Roles.Manager, settings.ClaimsNamespace, Roles.Manager);
                 AddPolicy(options, Roles.Seller, settings.ClaimsNamespace, Roles.Seller);
-            });
-
-            services.AddAuthentication(options =>
+            })
+            .AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -36,9 +36,13 @@ namespace Application.Setup
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(key),
                     ValidateIssuer = false,
-                    ValidateAudience = false
+                    ValidateAudience = false,
+                    ClockSkew = TimeSpan.Zero
                 };
             });
+
+            services.AddSingleton(settings);
+
             return services;
         }
 

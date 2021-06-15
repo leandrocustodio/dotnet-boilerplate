@@ -2,14 +2,14 @@
 
 namespace Application.Models.InputModels
 {
-    public class LoginInputModel
+    public record LoginInputModel
     {
         [Required]
         [EmailAddress]
-        public string Username { get; set; }
+        public string Username { get; init; }
         
         [Required]
         [MinLength(3)]
-        public string Password { get; set; }
+        public string Password { get; init; }
     }
 }

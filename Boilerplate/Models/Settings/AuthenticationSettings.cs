@@ -1,9 +1,10 @@
 ﻿namespace Application.Models.Settings
 {
-    public class AuthenticationSettings
+    public record AuthenticationSettings
     {
-        public string SecretKey { get; set; }
-        public string ClaimsNamespace { get; set; }
-        public int TokenLifeTime { get; set; }
+        public string SecretKey { get; init; }
+        public string ClaimsNamespace { get; init; }
+        public int TokenLifeTime { get; init; }
+        public int MaxAttempts { get; init; }
     }
 }
