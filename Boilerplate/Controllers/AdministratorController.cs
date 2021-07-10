@@ -33,8 +33,8 @@ namespace Boilerplate.Controllers
 
             var user = new User(newUser.Name, newUser.LastName, newUser.Email, newUser.Password);
             await _userBusiness.CreateAsync(user, Roles.Admin);
-
             var result = UserInfoViewModel.FromUser(user);
+
             return Created("/user/", result);
         }
     }

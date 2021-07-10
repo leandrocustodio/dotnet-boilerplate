@@ -3,7 +3,7 @@ using System;
 
 namespace Application.Models.ViewModels
 {
-    public class UserInfoViewModel
+    public record UserInfoViewModel
     {
         public uint Id { get; }
         public string Name { get; }
